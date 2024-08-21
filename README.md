@@ -1,0 +1,1 @@
+# implementation-of-FIFO-using-verilog
