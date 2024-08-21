@@ -8,7 +8,7 @@
 // Project Name: Implementation of FIFO using Verilog
 // Target Devices: 
 // Tool versions: 
-// Description: 
+// Description: FIFO_16x8
 //
 // Dependencies: 
 //
