@@ -1,0 +1,87 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+// created by :  Jilitkho Narzihary
+// Create Date:    14:43:17 08/21/2024 
+// Design Name: 
+// Module Name:    FIFO 
+// Project Name: Implementation of FIFO using Verilog
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
+module FIFO(clk,reset, wr_en, rd_en ,din,dout,full, empty
+    );
+input clk,reset;
+	input wr_en, rd_en;
+	input [7:0] din; //8bits of data
+	output [7:0] dout;
+	output full, empty;
+	
+	reg [7:0]Mem[0:15];
+	wire clk,reset;
+	wire wr_en, rd_en;
+	wire [7:0] din;
+	reg [7:0] dout;
+	integer i ;
+	wire full, empty;
+	reg [4:0]addr; \\adress
+	
+	
+	
+	assign full = ( addr == 5'b10000)? 1'b1 : 1'b0; \\assigning the address value for full
+	assign empty = ( addr == 5'b00000)? 1'b1 : 1'b0; \\assigning the address value for Empty
+	
+	always@(posedge clk)
+		begin
+			if(reset) // when reset is high
+			   begin
+					addr = 4'b0000;// address is initialize as 0 
+					for (  i = 0 ; i<= 15 ; i= i+1)
+						Mem[i] = 8'b0; // value of memory will be zero when reset i.e data is intialize to 0 
+				end
+			else if (wr_en| rd_en) //read or write i.e. when reset is low
+				begin
+					if(wr_en && (!full))
+						begin
+							Mem[addr] = din;
+							addr = addr+1;
+						end
+					else 
+						if(rd_en && (!empty))
+							begin 
+								dout = Mem[0];
+								Mem[0]  = Mem[1];
+								Mem[1]  = Mem[2];
+								Mem[2]  = Mem[3];
+								Mem[3]  = Mem[4];
+								Mem[4]  = Mem[5];
+								Mem[5]  = Mem[6];
+								Mem[6]  = Mem[7];
+								Mem[7]  = Mem[8];
+								Mem[8]  = Mem[9];
+								Mem[9]  = Mem[10];
+								Mem[10]  = Mem[11];
+								Mem[11]  = Mem[12];
+								Mem[12]  = Mem[13];
+								Mem[13]  = Mem[14];
+								Mem[14]  = Mem[15];
+								Mem[15]  = 8'b0;
+								
+								addr = addr-1;
+							end
+					end
+				end
+					
+						
+
+	
+
+endmodule
